@@ -28,7 +28,6 @@ public class SearchPath {
 	private static Node goal;
 	
 	public static void main(String[] args){
-		
 		readFile("map.txt");
 		LinkedList<Node>[][] nodeAdjList = createAdjList();
 		
@@ -40,7 +39,9 @@ public class SearchPath {
 		}
 		
 		BFS bsf = new BFS(nodeAdjList);
-		bsf.bsfSearch(start, goal);
+		bsf.bfsearch(start, goal);
+		IDS ids = new IDS(nodeAdjList);
+		ids.idSearch(start, goal);
 	
 	}
 	/* 
@@ -116,7 +117,6 @@ public class SearchPath {
 	 */
 	
 	public static LinkedList<Node>[][] createAdjList(){
-		
 		LinkedList<Node> nodeAdjList[][] = new LinkedList[grid.length][grid[0].length];
 		
 		for(int i = 0; i < grid.length; i++){

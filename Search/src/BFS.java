@@ -25,7 +25,7 @@ public class BFS {
 	 * Place current neighbor Nodes on queue mark as visited.
 	 * 
 	 */
-	public void bsfSearch(Node start, Node goal){
+	public void bfsearch(Node start, Node goal){
 		boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
 		Queue<Node> queue = new LinkedList<>();
 		
@@ -41,7 +41,6 @@ public class BFS {
 			if(current == goal){
 				break;
 			}
-			
 			System.out.print(" --> ");
 			
 			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
