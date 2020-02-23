@@ -10,8 +10,8 @@ private LinkedList<Node>[][] nodeAdjList;
 	}
 	/*
 	 * Recursively check each depth.
-	 * Use BFS to check visit adjacent nodes at depth
-	 * If goal found return true, otherwise depth reached (false)
+	 * Use BFS to check visit adjacent nodes at depth.
+	 * If goal found return true, otherwise depth reached (false).
 	 * 
 	 */
 	public boolean depthLimSearch(Node current, Node goal, int depth){
