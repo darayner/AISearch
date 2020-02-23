@@ -14,7 +14,9 @@ private LinkedList<Node>[][] nodeAdjList;
 	 * If goal found return true, otherwise depth reached (false).
 	 * 
 	 */
-	public boolean depthLimSearch(Node current, Node goal, int depth){
+	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited){
+		visited[current.getRow()][current.getCol()] = true;
+		
 		System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + current.getValue());
 		System.out.print(" --> ");
 		
@@ -28,10 +30,10 @@ private LinkedList<Node>[][] nodeAdjList;
 		}
 		
 		for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]){ //visit all adjacent nodes
-			if(adjToCurrent.getValue() == 0){
+			if(adjToCurrent.getValue() == 0 || visited[adjToCurrent.getRow()][adjToCurrent.getCol()]){
 				continue;
 			}
-			else if(depthLimSearch(adjToCurrent, goal, depth - 1)){ // call stack decrement depth
+			else if(depthLimSearch(adjToCurrent, goal, depth - 1, visited)){ // call stack decrement depth
 				return true;
 			}
 		}
@@ -49,7 +51,8 @@ private LinkedList<Node>[][] nodeAdjList;
 		
 		while(true){ // until goal is found keep incrementing depth
 			System.out.println("Depth: " + depth);
-			if(depthLimSearch(start, goal, depth)){
+			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
+			if(depthLimSearch(start, goal, depth, visited)){
 				break;
 			}
 			else{
