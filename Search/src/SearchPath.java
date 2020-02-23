@@ -115,7 +115,7 @@ public class SearchPath {
 	 * 5 -> [4, 4]
 	 */
 	
-	public static LinkedList<Node>[][] createAdjList(){
+    public static LinkedList<Node>[][] createAdjList(){
 		
 		LinkedList<Node> nodeAdjList[][] = new LinkedList[grid.length][grid[0].length];
 		
