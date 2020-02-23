@@ -15,7 +15,7 @@ private LinkedList<Node>[][] nodeAdjList;
 	 * 
 	 */
 	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited){
-		visited[current.getRow()][current.getCol()] = true;
+		visited[current.getRow()][current.getCol()] = true; // mark each visited node
 		
 		System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + current.getValue());
 		System.out.print(" --> ");
@@ -51,7 +51,8 @@ private LinkedList<Node>[][] nodeAdjList;
 		
 		while(true){ // until goal is found keep incrementing depth
 			System.out.println("Depth: " + depth);
-			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
+			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length]; // keep track of visited (no cycles)
+			
 			if(depthLimSearch(start, goal, depth, visited)){
 				break;
 			}
