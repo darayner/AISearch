@@ -40,6 +40,7 @@ public class SearchPath {
 		
 		BFS bsf = new BFS(nodeAdjList);
 		bsf.bfsearch(start, goal);
+		System.out.println();
 		IDS ids = new IDS(nodeAdjList);
 		ids.idSearch(start, goal);
 	
