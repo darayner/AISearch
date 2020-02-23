@@ -8,7 +8,12 @@ private LinkedList<Node>[][] nodeAdjList;
 		this.nodeAdjList = nodeAdjList;
 
 	}
-	
+	/*
+	 * Recursively check each depth.
+	 * Use BFS to check visit adjacent nodes at depth
+	 * If goal found return true, otherwise depth reached (false)
+	 * 
+	 */
 	public boolean depthLimSearch(Node current, Node goal, int depth){
 		System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + current.getValue());
 		System.out.print(" --> ");
@@ -22,7 +27,6 @@ private LinkedList<Node>[][] nodeAdjList;
 			return false;
 		}
 		
-		
 		for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]){ //visit all adjacent nodes
 			if(adjToCurrent.getValue() == 0){
 				continue;
@@ -34,6 +38,11 @@ private LinkedList<Node>[][] nodeAdjList;
 		return false;
 	}
 	
+	/*
+	 * Call depth limited search to go up to depth
+	 * Gradually increment depth if goal not found at depth
+	 * 
+	 */
 	public void idSearch(Node start, Node goal){
 		int depth = 0;
 		System.out.println("-- IDS path -- (coordinates)value ");
