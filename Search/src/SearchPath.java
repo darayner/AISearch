@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /* 
- * version 0.5.
+ * version 0.6.
  * Last modified 02/22/2020 @ 1:22pm.
  * 
  * Program implementing:
@@ -13,9 +13,9 @@ import java.util.LinkedList;
  * 3. A* star search
  * 
  * Testing the following:
- * 1. Cost of path to goal
- * 2. Number of nodes expanded
- * 3. Maximum number of nodes held in memory
+ * 1. Cost of path to goal.
+ * 2. Number of nodes expanded.
+ * 3. Maximum number of nodes held in memory.
  * 4. Runtime in milliseconds
  * 5. Path to goal (row, column) --> (row, column) ...
  * 

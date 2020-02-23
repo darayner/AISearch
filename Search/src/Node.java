@@ -1,8 +1,8 @@
 import java.util.Comparator;
 
 /*
- * Class to keep track of nodes on grid
- * Stores coordinates and values
+ * Class to keep track of nodes on grid.
+ * Stores coordinates and values.
  * 
  */
 public class Node implements Comparator<Node>{

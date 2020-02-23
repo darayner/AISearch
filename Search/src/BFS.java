@@ -17,12 +17,12 @@ public class BFS {
 	}
 	
 	/*
-	 * Breadth-first search 
-	 * Expands all adjacent nodes
+	 * Breadth-first search.
+	 * Expands all adjacent nodes.
 	 * do until goal is reached or queue is empty:
-	 * Keep track of current (top of queue)
-	 * Look at current's neighbors (adjacent Nodes)
-	 * Place current neighbor Nodes on queue mark as visited
+	 * Keep track of current (top of queue).
+	 * Look at current's neighbors (adjacent Nodes).
+	 * Place current neighbor Nodes on queue mark as visited.
 	 * 
 	 */
 	public void bsfSearch(Node start, Node goal){
