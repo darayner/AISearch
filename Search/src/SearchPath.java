@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
 /* 
  * version 0.8.
@@ -39,12 +40,25 @@ public class SearchPath {
 		}
 		
 		BFS bsf = new BFS(nodeAdjList);
-		bsf.bfsearch(start, goal);
+		List<Node> bPath = bsf.bfsearch(start, goal);
+		System.out.println("--BFS Path--");
+		for (Node node : bPath) { 		      
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+	    }
 		System.out.println();
 		IDS ids = new IDS(nodeAdjList);
-		ids.idSearch(start, goal);
+		List<Node> iPath = ids.idSearch(start, goal);
+		System.out.println("--IDS Path--");
+		for (Node node : iPath) { 		      
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+	    }
+		System.out.println();
 		AStar ast = new AStar(nodeAdjList);
-		ast.aStarSearch(start, goal);
+		List<Node> aPath = ast.aStarSearch(start, goal);
+		System.out.println("--A* Path--");
+		for (Node node : aPath) { 		      
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+	    }
 	
 	}
 	/* 
@@ -151,9 +165,5 @@ public class SearchPath {
 		return nodeAdjList;
 	
 	}
-	
-	
-	
-	
 	
 }

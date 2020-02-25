@@ -9,12 +9,13 @@ import java.util.Comparator;
  * Cost of path from start to node
  */
 public class Node implements Comparator<Node>{
-	private int row;
-	private int col;
-	private int value; // edge cost to reach node 
+	private int row; // x location of grid
+	private int col; // y location of grid
+	private int value; // edge cost to reach node
 	private int gValue; // cost from source node
-	private int hValue; // The Manhattan distance cost of node 
+	private int hValue; // The Manhattan distance cost of node
 	private int fValue; // The total path cost of the node from the start
+	private Node parent; // Get parent of node used for retracing path
 
 	public Node(int row, int col, int value){
 		this.row = row;
@@ -24,6 +25,10 @@ public class Node implements Comparator<Node>{
 	
 	public Node() {
 		
+	}
+	
+	public void setParent(Node parent){
+		this.parent = parent;
 	}
 
 	public void setRow(int row){
@@ -50,6 +55,10 @@ public class Node implements Comparator<Node>{
 		this.gValue = gValue;
 	}
 	
+	public Node getParent(){
+		return this.parent;
+	}
+	
 	public int getRow(){
 		return this.row;
 	}
@@ -73,8 +82,11 @@ public class Node implements Comparator<Node>{
 	public int getFValue() {
 		return this.fValue;
 	}
-
-
+	/*
+	 * Compares node f values
+	 * Used for A* priority queue
+	 * 
+	 */
 	@Override
 	public int compare(Node a, Node b) {
 		if(a.fValue > b.fValue){

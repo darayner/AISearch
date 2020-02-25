@@ -1,10 +1,13 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
 
 /*
- * Class to integrate breadth-first search
- * Provided nodeAdjList
+ * Class to integrate breadth-first search.
+ * Provided nodeAdjList.
  * 
  */
 public class BFS {
@@ -25,34 +28,37 @@ public class BFS {
 	 * Place current neighbor Nodes on queue mark as visited.
 	 * 
 	 */
-	public void bfsearch(Node start, Node goal){
+	public List<Node> bfsearch(Node start, Node goal){
 		boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
 		Queue<Node> queue = new LinkedList<>();
+		List<Node> path = new ArrayList<>();
 		
 		visited[start.getRow()][start.getCol()] = true;
 		queue.add(start);
 		
 		Node current;
-		System.out.println("-- BFS path -- (coordinates)value ");
 		while(queue.size() !=  0){
 			current = queue.poll();
-			System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + "[" + current.getFValue() + "] -->");
 			
-			if(current == goal){
-				break;
+			if(current == goal){  // goal found return path
+			  path.add(current);
+			  while(current != start){
+				  current = current.getParent();
+				  path.add(current);
+			  }
+			  Collections.reverse(path); 
+			  break;
 			}
-			System.out.print(" --> ");
 			
 			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
 			   if(!visited[adjToCurrent.getRow()][adjToCurrent.getCol()]  && adjToCurrent.getValue() != 0) {
 				   visited[adjToCurrent.getRow()][adjToCurrent.getCol()] = true;
+				   adjToCurrent.setParent(current);
 				   queue.add(adjToCurrent);
 			   }
 			}
-		
 		}
-		
-		
+		return path;
 	}
 	
 	

@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class IDS {
 
@@ -14,14 +17,10 @@ private LinkedList<Node>[][] nodeAdjList;
 	 * If goal found return true, otherwise depth reached (false).
 	 * 
 	 */
-	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited){
+	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited, List<Node> path){
 		visited[current.getRow()][current.getCol()] = true; // mark each visited node
 		
-		System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + current.getValue());
-		System.out.print(" --> ");
-		
 		if(current == goal){
-			System.out.println("Found goal at: " + "(" +current.getRow() + "," + current.getCol() + ")" + current.getValue());
 			return true;
 		}
 		
@@ -33,7 +32,8 @@ private LinkedList<Node>[][] nodeAdjList;
 			if(adjToCurrent.getValue() == 0 || visited[adjToCurrent.getRow()][adjToCurrent.getCol()]){
 				continue;
 			}
-			else if(depthLimSearch(adjToCurrent, goal, depth - 1, visited)){ // call stack decrement depth
+			else if(depthLimSearch(adjToCurrent, goal, depth - 1, visited, path)){ // call stack decrement depth
+				adjToCurrent.setParent(current);
 				return true;
 			}
 		}
@@ -41,27 +41,32 @@ private LinkedList<Node>[][] nodeAdjList;
 	}
 	
 	/*
-	 * Call depth limited search to go up to depth
-	 * Gradually increment depth if goal not found at depth
+	 * IDS search
+	 * Call depth limited search to go up to depth.
+	 * Gradually increment depth if goal not found at depth.
 	 * 
 	 */
-	public void idSearch(Node start, Node goal){
+	public List<Node> idSearch(Node start, Node goal){
 		int depth = 0;
-		System.out.println("-- IDS path -- (coordinates)value ");
+		List<Node> path = new ArrayList<>();
 		
 		while(true){ // until goal is found keep incrementing depth
-			System.out.println("Depth: " + depth);
 			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length]; // keep track of visited (no cycles)
 			
-			if(depthLimSearch(start, goal, depth, visited)){
+			if(depthLimSearch(start, goal, depth, visited, path)){
 				break;
 			}
 			else{
-				System.out.println();
 				depth += 1;
 			}
 		}
-		
+		path.add(goal);
+		while(goal != start){
+			goal = goal.getParent();
+			path.add(goal);
+		}
+		Collections.reverse(path); 
+		return path;
 	}
 	
 	
