@@ -36,7 +36,7 @@ public class BFS {
 		System.out.println("-- BFS path -- (coordinates)value ");
 		while(queue.size() !=  0){
 			current = queue.poll();
-			System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + current.getValue());
+			System.out.print("(" + current.getRow() + ", " + current.getCol() + ")" + "[" + current.getFValue() + "] -->");
 			
 			if(current == goal){
 				break;

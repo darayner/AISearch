@@ -21,7 +21,7 @@ private LinkedList<Node>[][] nodeAdjList;
 		System.out.print(" --> ");
 		
 		if(current == goal){
-			System.out.println("Found goal at: " + "(" +current.getRow() + "," + current.getCol() + ")");
+			System.out.println("Found goal at: " + "(" +current.getRow() + "," + current.getCol() + ")" + current.getValue());
 			return true;
 		}
 		

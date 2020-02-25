@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /* 
- * version 0.6.
- * Last modified 02/22/2020 @ 1:22pm.
+ * version 0.8.
+ * Last modified 02/24/2020 @ 1:22pm.
  * 
  * Program implementing:
  * 1. Breadth-first search
@@ -43,6 +43,8 @@ public class SearchPath {
 		System.out.println();
 		IDS ids = new IDS(nodeAdjList);
 		ids.idSearch(start, goal);
+		AStar ast = new AStar(nodeAdjList);
+		ast.aStarSearch(start, goal);
 	
 	}
 	/* 
