@@ -39,26 +39,58 @@ public class SearchPath {
 			System.out.println("");
 		}
 		
+		//BFS
 		BFS bsf = new BFS(nodeAdjList);
+		long startTime = System.nanoTime();
 		List<Node> bPath = bsf.bfsearch(start, goal);
+		long duration = System.nanoTime() - startTime;
 		System.out.println("--BFS Path--");
-		for (Node node : bPath) { 		      
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+		System.out.print("Path: ");
+		int pathCost = 0 - start.getValue();
+		for (Node node : bPath) {
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
+	           pathCost += node.getValue();
 	    }
 		System.out.println();
+		System.out.println("Path Cost: " + pathCost);
+		System.out.println("Maximum number of nodes held in memory: "+bsf.getmaxNodesHeld());
+		System.out.println("Number of nodes expanded: "+bsf.getExpandedNodes());
+		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		duration = 0; startTime = 0;
+		System.out.println();
+		
+		
+		//IDS
 		IDS ids = new IDS(nodeAdjList);
 		List<Node> iPath = ids.idSearch(start, goal);
 		System.out.println("--IDS Path--");
+		pathCost = 0 - start.getValue();
 		for (Node node : iPath) { 		      
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
+	           pathCost += node.getValue();
 	    }
 		System.out.println();
+		System.out.println("Path Cost: " + pathCost);
+		System.out.println("Maximum number of nodes held in memory: "+ids.getmaxNodesHeld());
+		System.out.println("Number of nodes expanded: "+ids.getExpandedNodes());
+		System.out.println("Runtime: ");
+		System.out.println();
+		
+		
+		//A* Search
 		AStar ast = new AStar(nodeAdjList);
 		List<Node> aPath = ast.aStarSearch(start, goal);
 		System.out.println("--A* Path--");
+		pathCost = 0 - start.getValue();
 		for (Node node : aPath) { 		      
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 		
+	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
+	           pathCost += node.getValue();
 	    }
+		System.out.println();
+		System.out.println("Path Cost: " + pathCost);
+		System.out.println("Maximum number of nodes held in memory: "+ast.getmaxNodesHeld());
+		System.out.println("number of nodes expanded: "+ast.getExpandedNodes());
+		System.out.println();
 	
 	}
 	/* 

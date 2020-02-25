@@ -13,10 +13,21 @@ import java.util.Queue;
 public class BFS {
 	
 	private LinkedList<Node>[][] nodeAdjList;
+	private int expandedNodes = 0;
+	private int maxNodesHeld = 0;
+	
 	
 	public BFS(LinkedList<Node>[][] nodeAdjList){
 		this.nodeAdjList = nodeAdjList;
 
+	}
+	
+	public int getExpandedNodes() {
+		return expandedNodes;
+	}
+	
+	public int getmaxNodesHeld() {
+		return maxNodesHeld;
 	}
 	
 	/*
@@ -35,6 +46,7 @@ public class BFS {
 		
 		visited[start.getRow()][start.getCol()] = true;
 		queue.add(start);
+		maxNodesHeld = queue.size();
 		
 		Node current;
 		while(queue.size() !=  0){
@@ -49,12 +61,14 @@ public class BFS {
 			  Collections.reverse(path); 
 			  break;
 			}
-			
+			expandedNodes += 1;
 			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
 			   if(!visited[adjToCurrent.getRow()][adjToCurrent.getCol()]  && adjToCurrent.getValue() != 0) {
 				   visited[adjToCurrent.getRow()][adjToCurrent.getCol()] = true;
 				   adjToCurrent.setParent(current);
 				   queue.add(adjToCurrent);
+				   if(queue.size()>maxNodesHeld)
+					   maxNodesHeld = queue.size();
 			   }
 			}
 		}

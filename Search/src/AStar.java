@@ -8,6 +8,16 @@ import java.util.Queue;
 public class AStar {
 	
 	private LinkedList<Node>[][] nodeAdjList; // adjacency node list
+	private int expandedNodes = 0;
+	private int maxNodesHeld = 0;
+
+	public int getExpandedNodes() {
+		return expandedNodes;
+	}
+
+	public int getmaxNodesHeld() {
+		return maxNodesHeld;
+	}
 	
 	public AStar(LinkedList<Node>[][] nodeAdjList){
 		this.nodeAdjList = nodeAdjList;
@@ -44,6 +54,7 @@ public class AStar {
 				 Collections.reverse(path); 
 				 break;
 			}
+			expandedNodes += 1;
 			//for each child compute f and g values
 			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
 				if(adjToCurrent.getValue() == 0){

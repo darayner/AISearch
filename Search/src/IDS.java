@@ -6,7 +6,17 @@ import java.util.List;
 public class IDS {
 
 private LinkedList<Node>[][] nodeAdjList;
-	
+private int expandedNodes = 0;
+private int maxNodesHeld = 0;
+
+	public int getExpandedNodes() {
+		return expandedNodes;
+	}
+
+	public int getmaxNodesHeld() {
+		return maxNodesHeld;
+	}
+
 	public IDS(LinkedList<Node>[][] nodeAdjList){
 		this.nodeAdjList = nodeAdjList;
 
@@ -27,7 +37,7 @@ private LinkedList<Node>[][] nodeAdjList;
 		if(depth <= 0){
 			return false;
 		}
-		
+		expandedNodes += 1;
 		for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]){ //visit all adjacent nodes
 			if(adjToCurrent.getValue() == 0 || visited[adjToCurrent.getRow()][adjToCurrent.getCol()]){
 				continue;
