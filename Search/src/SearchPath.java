@@ -51,6 +51,8 @@ public class SearchPath {
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
 	           pathCost += node.getValue();
 	    }
+		if (bPath.isEmpty())
+			pathCost = -1;
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+bsf.getmaxNodesHeld());
@@ -69,6 +71,8 @@ public class SearchPath {
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
 	           pathCost += node.getValue();
 	    }
+		if (bPath.isEmpty())
+			pathCost = -1;
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ids.getmaxNodesHeld());
@@ -86,6 +90,8 @@ public class SearchPath {
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
 	           pathCost += node.getValue();
 	    }
+		if (bPath.isEmpty())
+			pathCost = -1;
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ast.getmaxNodesHeld());
