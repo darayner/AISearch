@@ -38,6 +38,7 @@ public class AStar {
 		List<Node> path = new ArrayList<>();
 		
 		queue.add(start); // add starting node f = 0
+		maxNodesHeld = queue.size();
 		start.setHValue(computeManhDist(start, goal)); // set H value
 		
 		Node current;
@@ -76,6 +77,8 @@ public class AStar {
 				
 				adjToCurrent.setParent(current);
 				queue.add(adjToCurrent);
+				if(queue.size()>maxNodesHeld)
+					   maxNodesHeld = queue.size();
 			}
 		}
 		return path;

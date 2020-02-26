@@ -1,8 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /* 
  * version 0.8.
@@ -23,7 +27,7 @@ import java.util.List;
  */
 
 public class SearchPath {
-	
+	final static int captime = 180000;
 	private static Node[][] grid; //store Nodes on grid respective to their coordinate positions.
 	private static Node start;
 	private static Node goal;
@@ -38,12 +42,13 @@ public class SearchPath {
 			}
 			System.out.println("");
 		}
-		
+		long startTime, duration;
+	
 		//BFS
 		BFS bsf = new BFS(nodeAdjList);
-		long startTime = System.nanoTime();
+		startTime = System.nanoTime();
 		List<Node> bPath = bsf.bfsearch(start, goal);
-		long duration = System.nanoTime() - startTime;
+		duration = System.nanoTime() - startTime;
 		System.out.println("--BFS Path--");
 		System.out.print("Path: ");
 		int pathCost = 0 - start.getValue();
@@ -51,13 +56,15 @@ public class SearchPath {
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
 	           pathCost += node.getValue();
 	    }
-		if (bPath.isEmpty())
+		if (bPath.isEmpty()) {
 			pathCost = -1;
+			System.out.print("NULL");
+		}
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+bsf.getmaxNodesHeld());
 		System.out.println("Number of nodes expanded: "+bsf.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
 		duration = 0; startTime = 0;
 		System.out.println();
 		
@@ -68,18 +75,21 @@ public class SearchPath {
 		List<Node> iPath = ids.idSearch(start, goal);
 		duration = System.nanoTime() - startTime;
 		System.out.println("--IDS Path--");
+		System.out.print("Path: ");
 		pathCost = 0 - start.getValue();
 		for (Node node : iPath) { 		      
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
 	           pathCost += node.getValue();
 	    }
-		if (bPath.isEmpty())
+		if (bPath.isEmpty()) {
 			pathCost = -1;
+			System.out.print("NULL");
+		}
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ids.getmaxNodesHeld());
 		System.out.println("Number of nodes expanded: "+ids.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
 		duration = 0; startTime = 0;
 		System.out.println();
 		
@@ -90,18 +100,21 @@ public class SearchPath {
 		List<Node> aPath = ast.aStarSearch(start, goal);
 		duration = System.nanoTime() - startTime;
 		System.out.println("--A* Path--");
+		System.out.print("Path: ");
 		pathCost = 0 - start.getValue();
 		for (Node node : aPath) { 		      
 	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
 	           pathCost += node.getValue();
 	    }
-		if (bPath.isEmpty())
+		if (bPath.isEmpty()) {
 			pathCost = -1;
+			System.out.print("NULL");
+		}
 		System.out.println();
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ast.getmaxNodesHeld());
 		System.out.println("number of nodes expanded: "+ast.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
 		duration = 0; startTime = 0;
 		System.out.println();
 	
