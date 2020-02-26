@@ -59,23 +59,26 @@ private int maxNodesHeld = 0;
 	public List<Node> idSearch(Node start, Node goal){
 		int depth = 0;
 		List<Node> path = new ArrayList<>();
-		
+		int maxDepth = nodeAdjList.length * nodeAdjList[0].length;
 		while(true){ // until goal is found keep incrementing depth
 			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length]; // keep track of visited (no cycles)
 			
 			if(depthLimSearch(start, goal, depth, visited, path)){
+				path.add(goal);
+				while(goal != start){
+					goal = goal.getParent();
+					path.add(goal);
+				}
+				Collections.reverse(path); 
+				break;
+			}
+			else if(depth >= maxDepth) {
 				break;
 			}
 			else{
 				depth += 1;
 			}
 		}
-		path.add(goal);
-		while(goal != start){
-			goal = goal.getParent();
-			path.add(goal);
-		}
-		Collections.reverse(path); 
 		return path;
 	}
 	
