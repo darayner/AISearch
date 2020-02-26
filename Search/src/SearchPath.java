@@ -64,7 +64,9 @@ public class SearchPath {
 		
 		//IDS
 		IDS ids = new IDS(nodeAdjList);
+		startTime = System.nanoTime();
 		List<Node> iPath = ids.idSearch(start, goal);
+		duration = System.nanoTime() - startTime;
 		System.out.println("--IDS Path--");
 		pathCost = 0 - start.getValue();
 		for (Node node : iPath) { 		      
@@ -77,13 +79,16 @@ public class SearchPath {
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ids.getmaxNodesHeld());
 		System.out.println("Number of nodes expanded: "+ids.getExpandedNodes());
-		System.out.println("Runtime: ");
+		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		duration = 0; startTime = 0;
 		System.out.println();
 		
 		
 		//A* Search
 		AStar ast = new AStar(nodeAdjList);
+		startTime = System.nanoTime();
 		List<Node> aPath = ast.aStarSearch(start, goal);
+		duration = System.nanoTime() - startTime;
 		System.out.println("--A* Path--");
 		pathCost = 0 - start.getValue();
 		for (Node node : aPath) { 		      
@@ -96,6 +101,8 @@ public class SearchPath {
 		System.out.println("Path Cost: " + pathCost);
 		System.out.println("Maximum number of nodes held in memory: "+ast.getmaxNodesHeld());
 		System.out.println("number of nodes expanded: "+ast.getExpandedNodes());
+		System.out.println("Runtime milliseconds: "+(duration*.000001));
+		duration = 0; startTime = 0;
 		System.out.println();
 	
 	}
