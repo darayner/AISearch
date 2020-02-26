@@ -36,12 +36,6 @@ public class SearchPath {
 		readFile("map.txt");
 		LinkedList<Node>[][] nodeAdjList = createAdjList();
 		
-		for(int i = 0; i < grid.length; i++){
-			for(int j = 0; j < grid[i].length; j++){
-				System.out.print(grid[i][j].getValue() + " ");
-			}
-			System.out.println("");
-		}
 		long startTime, duration;
 	
 		//BFS

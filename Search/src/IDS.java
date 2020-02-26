@@ -8,6 +8,7 @@ public class IDS {
 private LinkedList<Node>[][] nodeAdjList;
 private int expandedNodes = 0;
 private int maxNodesHeld = 0;
+private int tempMaxNodes = 0;
 
 	public int getExpandedNodes() {
 		return expandedNodes;
@@ -29,7 +30,7 @@ private int maxNodesHeld = 0;
 	 */
 	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited, List<Node> path){
 		visited[current.getRow()][current.getCol()] = true; // mark each visited node
-		
+		tempMaxNodes += 1;
 		if(current == goal){
 			return true;
 		}
@@ -69,14 +70,21 @@ private int maxNodesHeld = 0;
 					goal = goal.getParent();
 					path.add(goal);
 				}
-				Collections.reverse(path); 
+				Collections.reverse(path);
+				if(tempMaxNodes> maxNodesHeld)
+					maxNodesHeld = tempMaxNodes;
 				break;
 			}
 			else if(depth >= maxDepth) {
+				if(tempMaxNodes> maxNodesHeld)
+					maxNodesHeld = tempMaxNodes;
 				break;
 			}
 			else{
 				depth += 1;
+				if(tempMaxNodes> maxNodesHeld)
+					maxNodesHeld = tempMaxNodes;
+				tempMaxNodes = 0;
 			}
 		}
 		return path;
