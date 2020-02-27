@@ -34,9 +34,6 @@ public class SearchPath {
 	
 	public static void main(String[] args){
 		
-		String mapFileName = args[0];
-		String searchAlgorithm = args[1]; //"BFS", "IDS", or "AS"
-		
 		LinkedList<Node>[][] nodeAdjList;
 		
 		/*
@@ -62,17 +59,14 @@ public class SearchPath {
 		}
 		*/
 		
-		//String file = "map.txt";
-		readFile(mapFileName);
+		String file = "mapTestF.txt";
+		readFile(file);
 		nodeAdjList = createAdjList();
-		if (searchAlgorithm.equals("BFS"))
-			runSearch("BFS", nodeAdjList);
-		else if (searchAlgorithm.equals("IDS"))
-			runSearch("IDS", nodeAdjList);
-		else if (searchAlgorithm.equals("AS"))
-			runSearch("AST", nodeAdjList);
-		else
-			System.out.println("Please select BFS, IDS or AS");
+		
+		runSearch("BFS", nodeAdjList);
+		runSearch("IDS", nodeAdjList);
+		runSearch("AST", nodeAdjList);
+		
 	}
 	
 	public static void readFile(String filename){
