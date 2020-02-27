@@ -30,6 +30,7 @@ public class SearchPath {
 	private static Node[][] grid; //store Nodes on grid respective to their coordinate positions
 	private static Node start;
 	private static Node goal;
+	final static int capPathLength = 5;
 	
 	public static void main(String[] args){
 		
@@ -213,6 +214,7 @@ public class SearchPath {
 		System.out.println("--" + searchType + " Search" + "--");
 		System.out.print("Path: ");
 		int pathCost = 0 - start.getValue();
+		int pathLength = 0;
 		
 		if(path.isEmpty()){
 			pathCost = -1;
@@ -222,6 +224,12 @@ public class SearchPath {
 		for(Node node : path){
 			System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
 			pathCost += node.getValue();
+			pathLength +=1;
+			if (pathLength%capPathLength == 0) {
+				System.out.println();
+				System.out.print("      ");
+			}
+
 		}
 		
 		
