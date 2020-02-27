@@ -30,7 +30,6 @@ private int tempMaxNodes = 0;
 	 */
 	public boolean depthLimSearch(Node current, Node goal, int depth, boolean[][] visited, List<Node> path){
 		visited[current.getRow()][current.getCol()] = true; // mark each visited node
-		tempMaxNodes -= 1;
 		if(current == goal){
 			return true;
 		}
@@ -41,12 +40,11 @@ private int tempMaxNodes = 0;
 		expandedNodes += 1;
 		for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]){ //visit all adjacent nodes
 			if(adjToCurrent.getValue() == 0 || visited[adjToCurrent.getRow()][adjToCurrent.getCol()]){
-				tempMaxNodes += 1;
 				continue;
 			}
 			else if(depthLimSearch(adjToCurrent, goal, depth - 1, visited, path)){ // call stack decrement depth
 				adjToCurrent.setParent(current);
-				
+				tempMaxNodes += 1;
 				return true;
 			}
 		}
@@ -91,9 +89,10 @@ private int tempMaxNodes = 0;
 			}
 			else{
 				depth += 1; // increment depth
-				if(tempMaxNodes> maxNodesHeld)
+				if(tempMaxNodes > maxNodesHeld){
 					maxNodesHeld = tempMaxNodes;
-					tempMaxNodes = 0;
+				}
+				tempMaxNodes = 0;
 			}
 		}
 		return path;

@@ -222,7 +222,9 @@ public class SearchPath {
 		}
 		
 		for(Node node : path){
-			System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
+			System.out.print("(" + node.getRow() + ", " + node.getCol() + ")");
+			if(pathLength < path.size()-1)
+				System.out.print(" -> ");
 			pathCost += node.getValue();
 			pathLength +=1;
 			if (pathLength%capPathLength == 0) {
