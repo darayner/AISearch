@@ -14,7 +14,7 @@ public class BFS {
 	
 	private LinkedList<Node>[][] nodeAdjList;
 	private int expandedNodes = 0;
-	private int maxNodesHeld = 0;
+	private int maxNodesHeld = 0; 
 	
 	
 	public BFS(LinkedList<Node>[][] nodeAdjList){
@@ -37,9 +37,9 @@ public class BFS {
 	 * Keep track of current (top of queue).
 	 * Look at current's neighbors (adjacent Nodes).
 	 * Place current neighbor Nodes on queue mark as visited.
-	 * 
+	 * Returns path.
 	 */
-	public List<Node> bfsearch(Node start, Node goal){
+	public List<Node> bfsearch(Node start, Node goal, double timeout){
 		boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
 		Queue<Node> queue = new LinkedList<>();
 		List<Node> path = new ArrayList<>();
@@ -62,13 +62,20 @@ public class BFS {
 			  break;
 			}
 			expandedNodes += 1;
-			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
-			   if(!visited[adjToCurrent.getRow()][adjToCurrent.getCol()]  && adjToCurrent.getValue() != 0) {
+			
+			if(System.currentTimeMillis() >= timeout){ //check timeout
+				System.out.println("Exceeded 3 minute time out!");
+				System.exit(0);
+			}
+			
+			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]){
+			   if(!visited[adjToCurrent.getRow()][adjToCurrent.getCol()]  && adjToCurrent.getValue() != 0){
 				   visited[adjToCurrent.getRow()][adjToCurrent.getCol()] = true;
 				   adjToCurrent.setParent(current);
 				   queue.add(adjToCurrent);
-				   if(queue.size()>maxNodesHeld)
+				   if(queue.size() > maxNodesHeld){
 					   maxNodesHeld = queue.size();
+				   }
 			   }
 			}
 		}

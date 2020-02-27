@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class AStar {
 	
@@ -32,7 +31,7 @@ public class AStar {
 	 * Finds goal node and returns shortest path.
 	 * 
 	 */
-	public List<Node> aStarSearch(Node start, Node goal){
+	public List<Node> aStarSearch(Node start, Node goal, double timeout){
 		boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length];
 		PriorityQueue<Node> queue = new PriorityQueue<Node>(new Node());
 		List<Node> path = new ArrayList<>();
@@ -56,6 +55,11 @@ public class AStar {
 				 break;
 			}
 			expandedNodes += 1;
+			
+			if(System.currentTimeMillis() >= timeout){ // check time out
+				System.out.println("Exceeded 3 minute time out!");
+				System.exit(0);
+			}
 			//for each child compute f and g values
 			for(Node adjToCurrent : nodeAdjList[current.getRow()][current.getCol()]) {
 				if(adjToCurrent.getValue() == 0){
@@ -77,8 +81,9 @@ public class AStar {
 				
 				adjToCurrent.setParent(current);
 				queue.add(adjToCurrent);
-				if(queue.size()>maxNodesHeld)
-					   maxNodesHeld = queue.size();
+				if(queue.size() > maxNodesHeld){
+					maxNodesHeld = queue.size();
+				}
 			}
 		}
 		return path;

@@ -1,16 +1,15 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /* 
- * version 0.8.
- * Last modified 02/24/2020 @ 1:22pm.
+ * version 1.0.
+ * Last modified 02/26/2020 @ 5:00pm.
+ * Authors:
+ * David Rayner
+ * Andrew Munoz
  * 
  * Program implementing:
  * 1. Breadth-first search
@@ -21,106 +20,54 @@ import java.util.concurrent.TimeUnit;
  * 1. Cost of path to goal.
  * 2. Number of nodes expanded.
  * 3. Maximum number of nodes held in memory.
- * 4. Runtime in milliseconds
- * 5. Path to goal (row, column) --> (row, column) ...
+ * 4. Runtime in milliseconds.
+ * 5. Path to goal (row, column), (row, column) ...
  * 
  */
 
 public class SearchPath {
-	final static int captime = 180000;
-	private static Node[][] grid; //store Nodes on grid respective to their coordinate positions.
+
+	private static Node[][] grid; //store Nodes on grid respective to their coordinate positions
 	private static Node start;
 	private static Node goal;
 	
 	public static void main(String[] args){
-		readFile("map.txt");
-		LinkedList<Node>[][] nodeAdjList = createAdjList();
 		
-		long startTime, duration;
-	
-		//BFS
-		BFS bsf = new BFS(nodeAdjList);
-		startTime = System.nanoTime();
-		List<Node> bPath = bsf.bfsearch(start, goal);
-		duration = System.nanoTime() - startTime;
-		System.out.println("--BFS Path--");
-		System.out.print("Path: ");
-		int pathCost = 0 - start.getValue();
-		for (Node node : bPath) {
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
-	           pathCost += node.getValue();
-	    }
-		if (bPath.isEmpty()) {
-			pathCost = -1;
-			System.out.print("NULL");
+		LinkedList<Node>[][] nodeAdjList;
+		
+		/*
+		if(args.length > 0){
+			String fileName = args[0];
+			String searchType = args[1];
+			File file = new File(fileName);
+			
+			if(file.exists() && (searchType.equals("BFS") || searchType.equals("IDS") || searchType.equals("AST"))){
+				readFile(fileName);
+				nodeAdjList = createAdjList();
+				runSearch(searchType, nodeAdjList);
+			}
+			else{
+				System.out.println("File does not exist or invalid search type!");
+				System.exit(0);
+			}
+			
 		}
-		System.out.println();
-		System.out.println("Path Cost: " + pathCost);
-		System.out.println("Maximum number of nodes held in memory: "+bsf.getmaxNodesHeld());
-		System.out.println("Number of nodes expanded: "+bsf.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
-		duration = 0; startTime = 0;
-		System.out.println();
-		
-		
-		//IDS
-		IDS ids = new IDS(nodeAdjList);
-		startTime = System.nanoTime();
-		List<Node> iPath = ids.idSearch(start, goal);
-		duration = System.nanoTime() - startTime;
-		System.out.println("--IDS Path--");
-		System.out.print("Path: ");
-		pathCost = 0 - start.getValue();
-		for (Node node : iPath) { 		      
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
-	           pathCost += node.getValue();
-	    }
-		if (bPath.isEmpty()) {
-			pathCost = -1;
-			System.out.print("NULL");
+		else{
+			System.out.println("Two arguments expected recieved: " + args.length);
+			System.exit(0);
 		}
-		System.out.println();
-		System.out.println("Path Cost: " + pathCost);
-		System.out.println("Maximum number of nodes held in memory: "+ids.getmaxNodesHeld());
-		System.out.println("Number of nodes expanded: "+ids.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
-		duration = 0; startTime = 0;
-		System.out.println();
+		*/
 		
+		String file = "map.txt";
+		readFile(file);
+		nodeAdjList = createAdjList();
 		
-		//A* Search
-		AStar ast = new AStar(nodeAdjList);
-		startTime = System.nanoTime();
-		List<Node> aPath = ast.aStarSearch(start, goal);
-		duration = System.nanoTime() - startTime;
-		System.out.println("--A* Path--");
-		System.out.print("Path: ");
-		pathCost = 0 - start.getValue();
-		for (Node node : aPath) { 		      
-	           System.out.print("(" + node.getRow() + ", " + node.getCol() + "), ");
-	           pathCost += node.getValue();
-	    }
-		if (bPath.isEmpty()) {
-			pathCost = -1;
-			System.out.print("NULL");
-		}
-		System.out.println();
-		System.out.println("Path Cost: " + pathCost);
-		System.out.println("Maximum number of nodes held in memory: "+ast.getmaxNodesHeld());
-		System.out.println("number of nodes expanded: "+ast.getExpandedNodes());
-		System.out.println("Runtime milliseconds: "+(duration*.000001));//change to milliseconds
-		duration = 0; startTime = 0;
-		System.out.println();
-	
+		runSearch("BFS", nodeAdjList);
+		runSearch("IDS", nodeAdjList);
+		runSearch("AST", nodeAdjList);
+		
 	}
-	/* 
-	 * Reads provided input file. 
-	 * Creates grid based on size (file line 1).
-	 * Stores start and end goal nodes (file lines 2 and 3).
-	 * Creates grid of Nodes with coordinates and their values. (file lines > 3)
-	 * Handle Exceptions:
-	 * 
-	 */
+	
 	public static void readFile(String filename){
 		
 		try {
@@ -158,8 +105,8 @@ public class SearchPath {
 			start = grid[startPos[0]][startPos[1]];
 		    goal = grid[goalPos[0]][goalPos[1]];
 		} 
-        catch (IOException e) {
-			e.printStackTrace();
+        catch(Exception e) {
+        	System.out.print(e);
 		}
 	}
 	
@@ -186,6 +133,7 @@ public class SearchPath {
 	 */
 	
 	public static LinkedList<Node>[][] createAdjList(){
+		@SuppressWarnings("unchecked")
 		LinkedList<Node> nodeAdjList[][] = new LinkedList[grid.length][grid[0].length];
 		
 		for(int i = 0; i < grid.length; i++){
@@ -215,7 +163,73 @@ public class SearchPath {
 			}
 		}
 		return nodeAdjList;
+	}
 	
+	/*
+	 * Runs the desired search type.
+	 * Prints:
+	 * Node path.
+	 * Total path cost.
+	 * Maximum Number of nodes held in memory.
+	 * Number of nodes expanded.
+	 * Runtime in milliseconds.
+	 * 
+	 */
+	public static void runSearch(String searchType, LinkedList<Node>[][] nodeAdjList){
+		long startTime, duration = 0;
+		int maxNodesHeld = 0;
+		int expandedNodes = 0;
+		double timeout = System.currentTimeMillis() + 180000;
+		List<Node> path = null;
+		
+		if(searchType.equals("BFS")){ 
+			BFS bSF = new BFS(nodeAdjList);
+			startTime = System.nanoTime();
+			path = bSF.bfsearch(start, goal, timeout);
+			duration = System.nanoTime() - startTime;
+			expandedNodes = bSF.getExpandedNodes();
+			maxNodesHeld = bSF.getmaxNodesHeld();
+			
+		}
+		
+		else if(searchType.equals("IDS")){
+			IDS iDS = new IDS(nodeAdjList);
+			startTime = System.nanoTime();
+			path = iDS.idSearch(start, goal, timeout);
+			duration = System.nanoTime() - startTime;
+			expandedNodes = iDS.getExpandedNodes();
+			maxNodesHeld = iDS.getmaxNodesHeld();
+		}
+		
+		else if(searchType.equals("AST")){
+			AStar aST = new AStar(nodeAdjList);
+			startTime = System.nanoTime();
+			path = aST.aStarSearch(start, goal, timeout);
+			duration = System.nanoTime() - startTime;
+			expandedNodes = aST.getExpandedNodes();
+			maxNodesHeld = aST.getmaxNodesHeld();
+		}
+		
+		System.out.println("--" + searchType + " Search" + "--");
+		System.out.print("Path: ");
+		int pathCost = 0 - start.getValue();
+		
+		if(path.isEmpty()){
+			pathCost = -1;
+			System.out.print("No path found to goal!");
+		}
+		
+		for(Node node : path){
+			System.out.print("(" + node.getRow() + ", " + node.getCol() + "), "); 
+			pathCost += node.getValue();
+		}
+		
+		
+		System.out.println();
+		System.out.println("Path Cost: " + pathCost);
+		System.out.println("Maximum number of nodes held in memory: " + maxNodesHeld);
+		System.out.println("Number of nodes expanded: "+ expandedNodes);
+		System.out.printf("Runtime milliseconds: %.4f %n%n", (duration * .000001)); // convert to milliseconds
 	}
 	
 }

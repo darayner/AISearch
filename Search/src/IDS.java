@@ -45,6 +45,7 @@ private int tempMaxNodes = 0;
 			}
 			else if(depthLimSearch(adjToCurrent, goal, depth - 1, visited, path)){ // call stack decrement depth
 				adjToCurrent.setParent(current);
+				
 				return true;
 			}
 		}
@@ -52,39 +53,46 @@ private int tempMaxNodes = 0;
 	}
 	
 	/*
-	 * IDS search
+	 * IDS search:
 	 * Call depth limited search to go up to depth.
 	 * Gradually increment depth if goal not found at depth.
-	 * 
+	 * Returns path.
 	 */
-	public List<Node> idSearch(Node start, Node goal){
+	public List<Node> idSearch(Node start, Node goal, double timeout){
 		int depth = 0;
 		List<Node> path = new ArrayList<>();
 		int maxDepth = nodeAdjList.length * nodeAdjList[0].length;
 		while(true){ // until goal is found keep incrementing depth
 			boolean[][] visited = new boolean[nodeAdjList.length][nodeAdjList[0].length]; // keep track of visited (no cycles)
 			
-			if(depthLimSearch(start, goal, depth, visited, path)){
+			if(System.currentTimeMillis() >= timeout){ // timeout
+				System.out.println("Exceeded 3 minute time out!");
+				System.exit(0);
+			}
+			
+			if(depthLimSearch(start, goal, depth, visited, path)){ // goal found
 				path.add(goal);
 				while(goal != start){
 					goal = goal.getParent();
 					path.add(goal);
 				}
 				Collections.reverse(path);
-				if(tempMaxNodes> maxNodesHeld)
+				if(tempMaxNodes > maxNodesHeld){
 					maxNodesHeld = tempMaxNodes;
+				}
 				break;
 			}
 			else if(depth >= maxDepth) {
-				if(tempMaxNodes> maxNodesHeld)
+				if(tempMaxNodes > maxNodesHeld){
 					maxNodesHeld = tempMaxNodes;
+				}
 				break;
 			}
 			else{
-				depth += 1;
+				depth += 1; // increment depth
 				if(tempMaxNodes> maxNodesHeld)
 					maxNodesHeld = tempMaxNodes;
-				tempMaxNodes = 0;
+					tempMaxNodes = 0;
 			}
 		}
 		return path;
